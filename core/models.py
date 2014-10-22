@@ -13,5 +13,8 @@ class Expense(models.Model):
     credit_amount = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     balance = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
 
+    class Meta:
+        ordering = ('-transaction_date',)
+
     def __unicode__(self):
         return '%s - %s' % (self.description, self.debit_amount)

@@ -7,7 +7,16 @@
 
     <ul>
         {% for expense in expense_list %}
-        <li>{{ expense }}</li>
+        <li>
+        	<span class="label label-primary">{{ expense.transaction_date }}</span>
+        	<span>{{ expense.description }}</span>
+        	{% if expense.debit_amount %}
+        	<span class="label label-danger">£{{ expense.debit_amount }}</span>
+        	{% endif %}
+        	{% if expense.credit_amount %}
+        	<span class="label label-success">£{{ expense.credit_amount }}</span>
+        	{% endif %}
+        </li>
         {% endfor %}
     </ul>
 
