@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <ul>
+        {% for expense in expense_list %}
+        <li>{{ expense }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

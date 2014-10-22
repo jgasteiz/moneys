@@ -1,0 +1,24 @@
+{
+  "name": "moneys",
+  "version": "0.0.1",
+  "authors": [
+    "Javi Manzano <javi.manzano.oller@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone": "",
+    "jquery": "",
+    "sass-bootstrap": "",
+    "underscore": "",
+    "moment": "~2.8.3",
+    "moment-duration-format": "~1.3.0"
+  }
+}

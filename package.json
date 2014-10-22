@@ -1,0 +1,30 @@
+{
+  "name": "moneys",
+  "version": "0.0.1",
+  "description": "Web app for logging your runs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jgasteiz/moneys.git"
+  },
+  "author": "Javi Manzano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jgasteiz/moneys/issues"
+  },
+  "homepage": "https://github.com/jgasteiz/moneys",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-uglify": "~0.5.1",
+    "grunt-contrib-sass": "~0.8.1",
+    "grunt-concurrent": "*",
+    "grunt-notify": "*",
+    "grunt-contrib-connect": "~0.8.0",
+    "grunt-contrib-jasmine": "~0.7.0",
+    "matchdep": "*"
+  }
+}
