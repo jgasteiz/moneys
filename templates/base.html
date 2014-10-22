@@ -27,9 +27,15 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/">Home</a></li>
-                    <li class="active"><a href="{% url 'import_csv' %}">Import CSV</a></li>
-                    <li class="active"><a href="{% url 'new_expense' %}">New expense</a></li>
+                    <li class="{% block home %}{% endblock home %}">
+                        <a href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="{% block import_csv %}{% endblock import_csv %}">
+                        <a href="{% url 'import_csv' %}">Import CSV</a>
+                    </li>
+                    <li class="{% block new_expense %}{% endblock new_expense %}">
+                        <a href="{% url 'new_expense' %}">New expense</a>
+                    </li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
