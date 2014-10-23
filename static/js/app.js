@@ -1,11 +1,8 @@
 
-var ff = {};
+var moneys = {};
 
 (function() {
     'use strict';
 
-
-    ff.infowindow = null;
-    ff.models = {};
-
+    moneys.models = {};
 })();
