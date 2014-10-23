@@ -5,19 +5,12 @@
 
 {% block content %}
 
-    <ul>
-        {% for expense in expense_list %}
-        <li>
-        	<span class="label label-primary">{{ expense.transaction_date }}</span>
-        	<span>{{ expense.description }}</span>
-        	{% if expense.debit_amount %}
-        	<span class="label label-danger">£{{ expense.debit_amount }}</span>
-        	{% endif %}
-        	{% if expense.credit_amount %}
-        	<span class="label label-success">£{{ expense.credit_amount }}</span>
-        	{% endif %}
-        </li>
-        {% endfor %}
-    </ul>
+    <div id="expense-list"></div>
 
-{% endblock %}
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+    moneys.expensesJson = {{ expenses_json|safe }};
+</script>
+{% endblock extra_js %}
