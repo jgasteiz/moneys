@@ -73,11 +73,16 @@ class ImportCSV(FormView):
                             csv_header_idxs[col] = idx
                 else:
 
+                    transaction_type = _get_prop_value(row, csv_header_idxs, 'transaction_type')
+
+                    # Not interested in internal transfers
+                    if transaction_type == 'TFR':
+                        continue
+
                     transaction_date = _get_prop_value(row, csv_header_idxs, 'transaction_date')
                     date_tmp = datetime.datetime.strptime(transaction_date, '%d/%m/%Y')
                     transaction_date = date_tmp.strftime("%Y-%m-%d")
 
-                    transaction_type = _get_prop_value(row, csv_header_idxs, 'transaction_type')
                     short_code = _get_prop_value(row, csv_header_idxs, 'short_code')
                     account_number = _get_prop_value(row, csv_header_idxs, 'account_number')
                     description = _get_prop_value(row, csv_header_idxs, 'description')
