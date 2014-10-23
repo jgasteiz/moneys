@@ -4,6 +4,7 @@ var moneys = {};
 (function() {
     'use strict';
 
-    moneys.views = {};
+    moneys.collections = {};
     moneys.models = {};
+    moneys.views = {};
 })();

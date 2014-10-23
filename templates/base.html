@@ -49,6 +49,7 @@
     </div>
 
     <script type="text/html" id="tpl-expense-collection">
+        <strong>Page: <%= page %></strong>
         <ul>
             <% _.each(expenses, function(expense) { %>
                 <li>
@@ -63,6 +64,12 @@
                 </li>
             <% }); %>
         </ul>
+        <% if (hasPreviousPage) { %>
+        <button type="button" class="btn btn-default previous-page">Previous page</button>
+        <% } %>
+        <% if (hasNextPage) { %>
+        <button type="button" class="btn btn-default next-page">Next page</button>
+        <% } %>
     </script>
 
     <script src="{% static 'lib/d3/d3.js' %}" charset="utf-8"></script>
@@ -74,6 +81,7 @@
 
     <script src="{% static 'js/app.js' %}"></script>
     <script src="{% static 'js/models.js' %}"></script>
+    <script src="{% static 'js/collections.js' %}"></script>
     <script src="{% static 'js/views.js' %}"></script>
     
     {% block extra_js %}{% endblock %}

@@ -2,18 +2,10 @@
 (function() {
     'use strict';
 
-    moneys.expenses = new Backbone.Collection();
+    var expenseCollection = new moneys.collections.ExpenseCollection();
 
-    // Create expenses
-    for (var i = 0; i < moneys.expensesJson.length; i++) {
-        var expense = new moneys.models.Expense(moneys.expensesJson[i].fields);
-        moneys.expenses.add(expense);
-    }
-
-    var collectionView = new moneys.views.ExpenseCollectionView({
+    var expenseCollectionView = new moneys.views.ExpenseCollectionView({
         el: '#expense-list',
-        collection: moneys.expenses
+        collection: expenseCollection
     });
-
-    collectionView.render();
 })();

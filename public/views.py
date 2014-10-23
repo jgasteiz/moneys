@@ -2,7 +2,6 @@ import csv
 import datetime
 from decimal import Decimal
 
-from django.core import serializers
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView, FormView, CreateView
@@ -26,15 +25,16 @@ CSV_HEADERS = [EXPENSE_PROPERTIES[key] for key in EXPENSE_PROPERTIES]
 class Home(TemplateView):
     template_name = 'home.html'
 
-    def get_context_data(self, **kwargs):
-        ctx = super(Home, self).get_context_data(**kwargs)
-        data = serializers.serialize('json', Expense.objects.all())
-        ctx.update(dict(
-            expenses_json=data
-        ))
-        return ctx
-
 home = Home.as_view()
+
+
+class NewExpense(CreateView):
+    form_class = ExpenseForm
+    model = Expense
+    success_url = reverse_lazy('home')
+    template_name = 'new_expense.html'
+
+new_expense = NewExpense.as_view()
 
 
 class ImportCSV(FormView):
@@ -114,12 +114,3 @@ class ImportCSV(FormView):
         return HttpResponseRedirect(self.get_success_url())
 
 import_csv = ImportCSV.as_view()
-
-
-class NewExpense(CreateView):
-    form_class = ExpenseForm
-    model = Expense
-    success_url = reverse_lazy('home')
-    template_name = 'new_expense.html'
-
-new_expense = NewExpense.as_view()
