@@ -1,0 +1,19 @@
+{
+    "folders":
+    [
+        {
+            "follow_symlinks": true,
+            "path": ".",
+            "folder_exclude_patterns": ["node_modules", ".sass-cache"]
+        }
+    ],
+    "settings": {
+        "src_root": "./",
+        "python_interpreter": "~/dev/moneys/env/bin/python",
+        "pep8": true,
+        "pep8_ignore":
+        [
+            "E501"
+        ],
+    }
+}
