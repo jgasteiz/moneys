@@ -7,30 +7,29 @@
      */
     moneys.views.ExpenseCollectionView = Backbone.View.extend({
         events: {
-            "click .next-page": "nextPage",
-            "click .previous-page": "previousPage"
+            "click .next-month": "nextMonth",
+            "click .previous-month": "previousMonth"
         },
         template: _.template($('#tpl-expense-collection').html()),
-        page: 1,
-        paginateBy: 20,
+        date: moment(),
         
         initialize: function() {
             this.listenTo(this.collection, 'reset add change remove', this.render, this);
             this.fetchCollection();
+            // this.render();
         },
-        nextPage: function() {
-            this.page = this.collection.page + 1;
+        nextMonth: function() {
+            this.date = this.date.add(1, 'months');
             this.fetchCollection();
         },
-        previousPage: function() {
-            this.page = this.collection.page - 1;
+        previousMonth: function() {
+            this.date = this.date.subtract(1, 'months');
             this.fetchCollection();
         },
         fetchCollection: function() {
             this.collection.fetch({
                 data: {
-                    page: this.page,
-                    paginate_by: this.paginateBy
+                    date: this.date.format('YYYY-MM')
                 }
             });
         },
@@ -51,24 +50,43 @@
             });
         },
         render: function() {
-            this.page = this.collection.page;
 
-            var expenses = _.map(this.collection.models, function(expense) {
-                if (expense.has('debit_amount')) {
-                    return parseFloat(expense.get('debit_amount'));
-                } else {
-                    return 0;
-                }
-            });
+            // var expenses = _.map(this.collection.models, function(expense) {
+            //     if (expense.has('debit_amount')) {
+            //         return parseFloat(expense.get('debit_amount'));
+            //     } else {
+            //         return 0;
+            //     }
+            // });
 
             // TODO: uncomment when generateChart makes sense.
             // this.generateChart(['Debit expenses'].concat(expenses));
+            
+            var expenses = _.reduce(this.collection.models, function(memo, expense) {
+                if (expense.has('debit_amount')) {
+                    return memo + parseFloat(expense.get('debit_amount'));
+                } else {
+                    return memo;
+                }
+            }, 0);
+
+            var incomes = _.reduce(this.collection.models, function(memo, expense) {
+                if (expense.has('credit_amount')) {
+                    return memo + parseFloat(expense.get('credit_amount'));
+                } else {
+                    return memo;
+                }
+            }, 0);
+
+            _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
 
             this.$el.html(this.template({
-                page: this.collection.page,
-                hasNextPage: this.collection.hasNextPage,
-                hasPreviousPage: this.collection.hasPreviousPage,
-                expenses: this.collection.toJSON()
+                expenseList: this.collection.toJSON(),
+                date: this.date.format("MMMM YYYY"),
+                hasNextMonth: this.date.month() < moment().month(),
+                expenses: expenses.toFixed(2),
+                incomes: incomes.toFixed(2),
+                balance: (incomes - expenses).toFixed(2)
             }));
         }
     });

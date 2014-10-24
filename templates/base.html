@@ -49,33 +49,16 @@
     </div>
 
     <script type="text/html" id="tpl-expense-collection">
-        <strong>Page: <%= page %></strong>
-        <ul>
-            <% _.each(expenses, function(expense) { %>
-                <li>
-                    <span class="label label-primary"><%= expense.transaction_date %></span>
-                    <span><%= expense.description %></span>
-                    <% if (expense.debit_amount) { %>
-                    <span class="label label-danger">£<%= expense.debit_amount %></span>
-                    <% } %>
-                    <% if (expense.credit_amount) { %>
-                    <span class="label label-success">£<%= expense.credit_amount %></span>
-                    <% } %>
-                </li>
-            <% }); %>
-        </ul>
-        <% if (hasPreviousPage) { %>
-        <button type="button" class="btn btn-default previous-page">Previous page</button>
-        <% } %>
-        <% if (hasNextPage) { %>
-        <button type="button" class="btn btn-default next-page">Next page</button>
-        <% } %>
+        {% include 'partials/expense-collection.html' %}
     </script>
 
     <script src="{% static 'lib/d3/d3.js' %}" charset="utf-8"></script>
     <script src="{% static 'lib/c3/c3.js' %}"></script>
+    
+    <script src="{% static 'lib/moment/moment.js' %}"></script>
 
     <script src="{% static 'lib/jquery/dist/jquery.js' %}"></script>
+    <script src="{% static 'lib/sass-bootstrap/dist/js/bootstrap.js' %}"></script>
     <script src="{% static 'lib/underscore/underscore.js' %}"></script>
     <script src="{% static 'lib/backbone/backbone.js' %}"></script>
 
