@@ -8,7 +8,7 @@
     <link href="{% static 'lib/c3/c3.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
 </head>
-<body>
+<body ng-app="moneys">
 
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -38,38 +38,27 @@
     </div>
 
     <div class="container">
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% block content %}{% endblock %}
+        <ng-view></ng-view>
     </div>
-
-    <script type="text/html" id="tpl-expense-collection">
-        {% include 'partials/expense-collection.html' %}
-    </script>
 
     <script src="{% static 'lib/d3/d3.js' %}" charset="utf-8"></script>
     <script src="{% static 'lib/c3/c3.js' %}"></script>
-    
-    <script src="{% static 'lib/moment/moment.js' %}"></script>
-
     <script src="{% static 'lib/jquery/dist/jquery.js' %}"></script>
     <script src="{% static 'lib/sass-bootstrap/dist/js/bootstrap.js' %}"></script>
     <script src="{% static 'lib/underscore/underscore.js' %}"></script>
-    <script src="{% static 'lib/backbone/backbone.js' %}"></script>
+    <script src="{% static 'lib/moment/moment.js' %}"></script>
 
-    <script src="{% static 'js/app.js' %}"></script>
-    <script src="{% static 'js/models.js' %}"></script>
-    <script src="{% static 'js/collections.js' %}"></script>
-    <script src="{% static 'js/views.js' %}"></script>
-    
-    {% block extra_js %}{% endblock %}
-    
-    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'lib/angular/angular.js' %}"></script>
+    <script src="{% static 'lib/angular-resource/angular-resource.js' %}"></script>
+    <script src="{% static 'lib/angular-route/angular-route.js' %}"></script>
+    <script src="{% static 'lib/angular-bootstrap/ui-bootstrap-tpls.js' %}"></script>
+
+    <script src="{% static 'js/app.module.js' %}"></script>
+    <script src="{% static 'js/app.routes.js' %}"></script>
+
+    <script src="{% static 'js/services/logger.service.js' %}"></script>
+    <script src="{% static 'js/services/data.service.js' %}"></script>
+    <script src="{% static 'js/layout/home.controller.js' %}"></script>
 
 </body>
 </html>

@@ -23,7 +23,7 @@ CSV_HEADERS = [EXPENSE_PROPERTIES[key] for key in EXPENSE_PROPERTIES]
 
 
 class Home(TemplateView):
-    template_name = 'home.html'
+    template_name = 'base.html'
 
 home = Home.as_view()
 
