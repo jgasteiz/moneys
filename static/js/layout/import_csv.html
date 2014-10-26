@@ -1,0 +1,17 @@
+<div class="well">
+    <form form-element="vm.formElement" name="form" novalidate class="form" method="post" enctype="multipart/form-data">
+        <div id="div_id_csv_file" class="form-group" ng-class="{'has-error': form.csv_file.$error && form.$submitted}">
+            <label for="id_csv_file" class="control-label  requiredField">
+                Csv file <span class="asteriskField">*</span>
+            </label>
+            <div class="controls">
+                <input class="clearablefileinput" file-model required id="id_csv_file" name="csv_file" ng-model="vm.csvFile" type="file">
+                <p class="error" ng-show="form.csv_file.$error && form.$submitted">This field is required</p>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="button" class="btn btn-primary" ng-click="vm.submit(form)">Import</button>
+            <a class="btn btn-default" href="/#/">Cancel</a>
+        </div>
+    </form>
+</div>

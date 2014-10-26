@@ -4,7 +4,16 @@ body {
 	margin-top: 80px;
 }
 
+a,
+button {
+	cursor: default !important;
+}
+
 .expense-list {
 	list-style: none;
 	padding: 0;
+}
+
+.error {
+	color: #B94A48;
 }

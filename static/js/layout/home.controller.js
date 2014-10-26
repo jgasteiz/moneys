@@ -1,4 +1,3 @@
-// logger.js
 (function() {
     'use strict';
 
@@ -22,6 +21,11 @@
         vm.nextMonth = function() {
             vm.date = vm.date.add(1, 'months');
             getExpenses();
+        };
+
+        vm.hasNextMonth = function() {
+            var now = moment();
+            return vm.date.month() >= now.month() && vm.date.year() >= now.year();
         };
 
         activate();
