@@ -51,6 +51,18 @@
             return vm.date.month() >= now.month() && vm.date.year() >= now.year();
         };
 
+        vm.sortByQuantity = function() {
+            vm.expenses.expenses = _.sortBy(vm.expenses.expenses, function(expense) {
+                return parseFloat(expense.debit_amount) || parseFloat(expense.credit_amount);
+            }).reverse();
+        };
+
+        vm.sortByDate = function() {
+            vm.expenses.expenses = _.sortBy(vm.expenses.expenses, function(expense) {
+                return moment(expense.transaction_date);
+            }).reverse();
+        };
+
         vm.toggleTypeSelection = function(type) {
             vm.selectedTypes[type] = !vm.selectedTypes[type];
             var selectedExpenses = vm.expenses.expenses.filter(function(expense) {
