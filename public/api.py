@@ -47,6 +47,22 @@ class ExpenseViewSet(viewsets.ViewSet):
             results=serializer.data
         )
 
+    def post(self, request):
+        action = request.DATA.get('action')
+        if action == 'ignore':
+            ids = request.DATA.get('ids')
+            for expense_id in ids:
+                expense = Expense.objects.get(id=expense_id)
+                expense.ignored = True
+                expense.save()
+        elif action == 'unignore':
+            ids = request.DATA.get('ids')
+            for expense_id in ids:
+                expense = Expense.objects.get(id=expense_id)
+                expense.ignored = False
+                expense.save()
+        return Response(dict(message='hey'))
+
     def list(self, request):
         if 'date' in request.GET:
             response_data = self.get_expenses_by_date(request)
