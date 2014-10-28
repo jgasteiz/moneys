@@ -13,6 +13,8 @@ class Expense(models.Model):
     credit_amount = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     balance = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
 
+    ignored = models.BooleanField(default=False)
+
     class Meta:
         ordering = ('-transaction_date',)
 
