@@ -25,19 +25,18 @@ function dataservice($http, logger) {
 
             expenses.expenses = response.data.results;
 
-            expenses.totalExpenses = _.reduce(expenses.expenses, function(memo, expense) {
-                if (expense['debit_amount']) {
-                    return memo + parseFloat(expense['debit_amount']);
-                } else {
-                    return memo;
-                }
+            expenses.totalExpenses = expenses.expenses.filter(function(expense) {
+                return expense.debit_amount && !expense.ignored;
+            }).reduce(function(acc, expense) {
+                acc = acc + parseFloat(expense.debit_amount);
+                return acc;
             }, 0).toFixed(2);
-            expenses.totalIncomes = _.reduce(expenses.expenses, function(memo, expense) {
-                if (expense['credit_amount']) {
-                    return memo + parseFloat(expense['credit_amount']);
-                } else {
-                    return memo;
-                }
+
+            expenses.totalIncomes = expenses.expenses.filter(function(expense) {
+                return expense.credit_amount && !expense.ignored;
+            }).reduce(function(acc, expense) {
+                acc = acc + parseFloat(expense.credit_amount);
+                return acc;
             }, 0).toFixed(2);
 
             expenses.balance = (expenses.totalIncomes - expenses.totalExpenses).toFixed(2);
