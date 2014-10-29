@@ -22,6 +22,9 @@
                 <p><strong>Your incomes: <span class="label label-success">£ [[vm.expenses.totalIncomes]]</span></strong></p>
                 <p><strong>Your expenses: <span class="label label-danger">£ [[vm.expenses.totalExpenses]]</span></strong></p>
                 <p><strong>Your balance: <span class="label label-info">£ [[vm.expenses.balance]]</span></strong></p>
+                <hr>
+                <p><strong>Selected expenses: <span class="label label-danger">£ [[vm.selectedExpenses]]</span></strong></p>
+                <p><strong>Selected incomes: <span class="label label-success">£ [[vm.selectedIncomes]]</span></strong></p>
 
                 <h3>Selection</h3>
                 <div class="btn-group-vertical">
@@ -49,6 +52,9 @@
                             ng-class="{'btn-default': !vm.selectedTypes['DD'], 'btn-success': vm.selectedTypes['DD']}"
                             ng-click="vm.toggleTypeSelection('DD')">
                         Direct debit</button>
+                    <button class="btn btn-sm btn-default"
+                            ng-click="vm.selectAll()">
+                        Select all</button>
                     <button class="btn btn-sm btn-default"
                             ng-click="vm.selectNone()">
                         Clear selection</button>
@@ -83,6 +89,9 @@
                     <button class="btn btn-sm btn-default"
                             ng-click="vm.showAllTypes()">
                         Show all</button>
+                    <button class="btn btn-sm btn-default"
+                            ng-click="vm.showNoTypes()">
+                        Show none</button>
                 </div>
 
                 <h3>Actions</h3>
@@ -114,7 +123,7 @@
                 <ul class="expense-list">
                     <li ng-repeat="expense in vm.expenses.expenses"
                         ng-hide="(expense.ignored && !vm.showIgnoredExpenses) || !vm.shownTypes[expense.transaction_type]">
-                        <input type="checkbox" ng-model="expense.selected">
+                        <input type="checkbox" ng-model="expense.selected" ng-change="vm.updateSelectedTransaction(expense)">
                         <span class="label label-warning" ng-show="expense.ignored">IGNORED</span>
                         <span class="label label-primary">[[expense.transaction_date]]</span>
 

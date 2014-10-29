@@ -31,6 +31,9 @@
             'DD': true
         };
 
+        vm.selectedExpenses = parseFloat(0).toFixed(2);
+        vm.selectedIncomes = parseFloat(0).toFixed(2);
+
         vm.http = $http;
 
     	vm.previousMonth = function() {
@@ -69,6 +72,7 @@
                 return expense.transaction_type === type;
             }).map(function(expense) {
                 expense.selected = vm.selectedTypes[type];
+                vm.updateSelectedTransaction(expense);
             });
         };
 
@@ -77,6 +81,7 @@
         };
 
         vm.selectNone = function() {
+            vm.restoreSelectedTransactions();
             for (var i in vm.selectedTypes) {
                 vm.selectedTypes[i] = false;
             }
@@ -85,9 +90,26 @@
             });
         };
 
-        vm.showAllTypes = function(type) {
+        vm.selectAll = function() {
+            vm.restoreSelectedTransactions();
+            for (var i in vm.selectedTypes) {
+                vm.selectedTypes[i] = true;
+            }
+            angular.forEach(vm.expenses.expenses, function(expense) {
+                expense.selected = true;
+                vm.updateSelectedTransaction(expense);
+            });
+        };
+
+        vm.showAllTypes = function() {
             for (var i in vm.shownTypes) {
                 vm.shownTypes[i] = true;
+            }
+        };
+
+        vm.showNoTypes = function() {
+            for (var i in vm.shownTypes) {
+                vm.shownTypes[i] = false;
             }
         };
 
@@ -113,6 +135,34 @@
             }).error(function(data) {
                 logger.error(data);
             });
+        };
+
+        vm.updateSelectedTransaction = function(expense) {
+            if (expense.ignored) {
+                return;
+            }
+            if (expense.debit_amount) {
+                var selectedExpenses = parseFloat(vm.selectedExpenses);
+                if (expense.selected) {
+                    selectedExpenses = selectedExpenses + parseFloat(expense.debit_amount);
+                } else {
+                    selectedExpenses = selectedExpenses - parseFloat(expense.debit_amount);
+                }
+                vm.selectedExpenses = selectedExpenses.toFixed(2);
+            } else {
+                var selectedIncomes = parseFloat(vm.selectedIncomes);
+                if (expense.selected) {
+                    selectedIncomes = selectedIncomes + parseFloat(expense.credit_amount);
+                } else {
+                    selectedIncomes = selectedIncomes - parseFloat(expense.credit_amount);
+                }
+                vm.selectedIncomes = selectedIncomes.toFixed(2);
+            }
+        };
+
+        vm.restoreSelectedTransactions = function() {
+            vm.selectedExpenses = parseFloat(0).toFixed(2);
+            vm.selectedIncomes = parseFloat(0).toFixed(2);
         };
 
         activate();
