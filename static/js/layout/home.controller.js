@@ -5,9 +5,9 @@
         .module('moneys')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['dataservice', 'logger', '$http']
+    HomeController.$inject = ['dataservice', 'logger']
 
-    function HomeController(dataservice, logger, $http) {
+    function HomeController(dataservice, logger) {
 
         var vm = this;
 
@@ -33,8 +33,6 @@
 
         vm.selectedExpenses = parseFloat(0).toFixed(2);
         vm.selectedIncomes = parseFloat(0).toFixed(2);
-
-        vm.http = $http;
 
     	vm.previousMonth = function() {
     		vm.date = vm.date.subtract(1, 'months');
@@ -114,27 +112,19 @@
         };
 
         vm.ignoreTransactions = function() {
-            vm.http({
-                method: 'POST',
-                url: '/api/transactions/',
-                data: {action: 'ignore', ids: getSelectedIds()}
-            }).success(function(data) {
-                getTransactions();
-            }).error(function(data) {
-                logger.error(data);
-            });
+            var ids = getSelectedIds();
+            dataservice.ignoreTransactions(ids)
+                .then(function(data) {
+                    getTransactions();
+                });
         };
 
         vm.undoIgnoreTransactions = function() {
-            vm.http({
-                method: 'POST',
-                url: '/api/transactions/',
-                data: {action: 'unignore', ids: getSelectedIds()}
-            }).success(function(data) {
-                getTransactions();
-            }).error(function(data) {
-                logger.error(data);
-            });
+            var ids = getSelectedIds();
+            dataservice.undoIgnoreTransactions(ids)
+                .then(function(data) {
+                    getTransactions();
+                });
         };
 
         vm.updateSelectedTransaction = function(transaction) {

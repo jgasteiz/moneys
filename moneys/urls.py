@@ -16,6 +16,5 @@ urlpatterns = patterns(
 
     url(r'^$', 'home', name='home'),
     url(r'^import_csv/$', 'import_csv', name='import_csv'),
-    url(r'^new_expense/$', 'new_expense', name='new_expense'),
     url(r'^api/', include(router.urls)),
 )

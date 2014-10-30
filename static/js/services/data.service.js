@@ -10,8 +10,30 @@ dataservice.$inject = ['$http', 'logger'];
 function dataservice($http, logger) {
 
     return {
-        getTransactions: getTransactions
+        getTransactions: getTransactions,
+        ignoreTransactions: ignoreTransactions,
+        undoIgnoreTransactions: undoIgnoreTransactions
     };
+
+    function ignoreTransactions(ids, cb) {
+        return $http({
+            method: 'POST',
+            url: '/api/transactions/',
+            data: {action: 'ignore', ids: ids}
+        }).error(function(data) {
+            logger.error(data);
+        });
+    }
+
+    function undoIgnoreTransactions(ids, cb) {
+        return $http({
+            method: 'POST',
+            url: '/api/transactions/',
+            data: {action: 'unignore', ids: ids}
+        }).error(function(data) {
+            logger.error(data);
+        });
+    }
 
     function getTransactions(query) {
 
