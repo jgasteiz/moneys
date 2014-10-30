@@ -1,5 +1,4 @@
 from django.core.urlresolvers import reverse
-from core.models import Expense
 from crispy_forms.bootstrap import FormActions
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Div, Layout, HTML
@@ -22,32 +21,5 @@ class CSVForm(forms.Form):
             FormActions(
                 Submit('import', 'Import'),
                 HTML('<a class="btn btn-default" href="%s">Cancel</a>' % reverse('home')),
-            )
-        )
-
-
-class ExpenseForm(forms.ModelForm):
-
-    class Meta:
-        fields = (
-            'description',
-            'debit_amount',
-        )
-        model = Expense
-
-    def __init__(self, *args, **kwargs):
-        super(ExpenseForm, self).__init__(*args, **kwargs)
-        helper = FormHelper()
-        helper.form_class = 'form'
-        helper.attrs['name'] = 'form'
-        helper.attrs['action'] = reverse('new_expense')
-        self.helper = helper
-        self.helper.layout = Layout(
-            Div(
-                'description',
-                'debit_amount',
-            ),
-            FormActions(
-                Submit('save', 'Save'),
             )
         )

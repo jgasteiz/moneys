@@ -4,16 +4,16 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from core.models import Expense
-from core.serializers import ExpenseSerializer
+from core.models import Transaction
+from core.serializers import TransactionSerializer
 
 
-class ExpenseViewSet(viewsets.ViewSet):
-    model = Expense
+class TransactionViewSet(viewsets.ViewSet):
+    model = Transaction
     paginate_by = 20
-    serializer = ExpenseSerializer
+    serializer = TransactionSerializer
 
-    def get_all_expenses(self, request):
+    def get_all_transactions(self, request):
         page_num = request.GET.get('page', 1)
         paginate_by = request.GET.get('paginate_by', self.paginate_by)
 
@@ -30,7 +30,7 @@ class ExpenseViewSet(viewsets.ViewSet):
             results=serializer.data
         )
 
-    def get_expenses_by_date(self, request):
+    def get_transactions_by_date(self, request):
         date = request.GET.get('date')
         splitted_date = date.split('-')
 
@@ -51,28 +51,28 @@ class ExpenseViewSet(viewsets.ViewSet):
         action = request.DATA.get('action')
         if action == 'ignore':
             ids = request.DATA.get('ids')
-            for expense_id in ids:
-                expense = Expense.objects.get(id=expense_id)
-                expense.ignored = True
-                expense.save()
+            for transaction_id in ids:
+                transaction = self.model.objects.get(id=transaction_id)
+                transaction.ignored = True
+                transaction.save()
         elif action == 'unignore':
             ids = request.DATA.get('ids')
-            for expense_id in ids:
-                expense = Expense.objects.get(id=expense_id)
-                expense.ignored = False
-                expense.save()
+            for transaction_id in ids:
+                transaction = self.model.objects.get(id=transaction_id)
+                transaction.ignored = False
+                transaction.save()
         return Response(dict(message='hey'))
 
     def list(self, request):
         if 'date' in request.GET:
-            response_data = self.get_expenses_by_date(request)
+            response_data = self.get_transactions_by_date(request)
         else:
-            response_data = self.get_all_expenses(request)
+            response_data = self.get_all_transactions(request)
 
         return Response(response_data)
 
     def retrieve(self, request, pk=None):
-        queryset = Expense.objects.all()
-        expense = get_object_or_404(queryset, pk=pk)
-        serializer = ExpenseSerializer(expense)
+        queryset = self.model.objects.all()
+        transaction = get_object_or_404(queryset, pk=pk)
+        serializer = self.serializer(transaction)
         return Response(serializer.data)

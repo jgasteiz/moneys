@@ -3,14 +3,13 @@ import json
 import datetime
 from decimal import Decimal
 
-from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse, HttpResponseBadRequest
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView
 
-from core.forms import CSVForm, ExpenseForm
-from core.models import Expense
+from core.forms import CSVForm
+from core.models import Transaction
 
-EXPENSE_PROPERTIES = {
+TRANSACTION_PROPERTIES = {
     'transaction_date': 'Transaction Date',
     'transaction_type': 'Transaction Type',
     'short_code': 'Sort Code',
@@ -20,7 +19,7 @@ EXPENSE_PROPERTIES = {
     'credit_amount': 'Credit Amount',
     'balance': 'Balance',
 }
-CSV_HEADERS = [EXPENSE_PROPERTIES[key] for key in EXPENSE_PROPERTIES]
+CSV_HEADERS = [TRANSACTION_PROPERTIES[key] for key in TRANSACTION_PROPERTIES]
 
 
 class Home(TemplateView):
@@ -29,22 +28,13 @@ class Home(TemplateView):
 home = Home.as_view()
 
 
-class NewExpense(CreateView):
-    form_class = ExpenseForm
-    model = Expense
-    success_url = reverse_lazy('home')
-    template_name = 'new_expense.html'
-
-new_expense = NewExpense.as_view()
-
-
 def import_csv(request, *args, **kwargs):
     form = CSVForm(data=request.POST, files=request.FILES)
 
     if form.is_valid():
 
         def _get_prop_value(csv_row, header_idxs, model_property_name):
-            csv_header = EXPENSE_PROPERTIES[model_property_name]
+            csv_header = TRANSACTION_PROPERTIES[model_property_name]
             return csv_row[header_idxs[csv_header]]
 
         csv_file = request.FILES['csv_file']
@@ -78,7 +68,7 @@ def import_csv(request, *args, **kwargs):
                 balance = _get_prop_value(row, csv_header_idxs, 'balance')
                 balance = Decimal(balance) if balance != '' else None
 
-                qry = Expense.objects.filter(
+                qry = Transaction.objects.filter(
                     transaction_date=transaction_date,
                     transaction_type=transaction_type,
                     description=description,
@@ -87,7 +77,7 @@ def import_csv(request, *args, **kwargs):
                 )
 
                 if len(qry) == 0:
-                    Expense.objects.create(
+                    Transaction.objects.create(
                         transaction_date=transaction_date,
                         transaction_type=transaction_type,
                         short_code=short_code,

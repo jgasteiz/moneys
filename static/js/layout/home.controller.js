@@ -12,8 +12,8 @@
         var vm = this;
 
         vm.date = moment();
-        vm.expenses = {};
-        vm.showIgnoredExpenses = false;
+        vm.transactions = {};
+        vm.showIgnoredTransactions = false;
         vm.selectedTypes = {
             'TFR': false,
             'DEB': false,
@@ -40,13 +40,13 @@
     		vm.date = vm.date.subtract(1, 'months');
             vm.selectNone();
             vm.showAllTypes();
-            getExpenses();
+            getTransactions();
     	};
         vm.nextMonth = function() {
             vm.date = vm.date.add(1, 'months');
             vm.selectNone();
             vm.showAllTypes();
-            getExpenses();
+            getTransactions();
         };
 
         vm.hasNextMonth = function() {
@@ -55,24 +55,24 @@
         };
 
         vm.sortByQuantity = function() {
-            vm.expenses.expenses = _.sortBy(vm.expenses.expenses, function(expense) {
-                return parseFloat(expense.debit_amount) || parseFloat(expense.credit_amount);
+            vm.transactions.transactions = _.sortBy(vm.transactions.transactions, function(transaction) {
+                return parseFloat(transaction.debit_amount) || parseFloat(transaction.credit_amount);
             }).reverse();
         };
 
         vm.sortByDate = function() {
-            vm.expenses.expenses = _.sortBy(vm.expenses.expenses, function(expense) {
-                return moment(expense.transaction_date);
+            vm.transactions.transactions = _.sortBy(vm.transactions.transactions, function(transaction) {
+                return moment(transaction.transaction_date);
             }).reverse();
         };
 
         vm.toggleTypeSelection = function(type) {
             vm.selectedTypes[type] = !vm.selectedTypes[type];
-            var selectedExpenses = vm.expenses.expenses.filter(function(expense) {
-                return expense.transaction_type === type;
-            }).map(function(expense) {
-                expense.selected = vm.selectedTypes[type];
-                vm.updateSelectedTransaction(expense);
+            var selectedExpenses = vm.transactions.transactions.filter(function(transaction) {
+                return transaction.transaction_type === type;
+            }).map(function(transaction) {
+                transaction.selected = vm.selectedTypes[type];
+                vm.updateSelectedTransaction(transaction);
             });
         };
 
@@ -85,8 +85,8 @@
             for (var i in vm.selectedTypes) {
                 vm.selectedTypes[i] = false;
             }
-            angular.forEach(vm.expenses.expenses, function(expense) {
-                expense.selected = false;
+            angular.forEach(vm.transactions.transactions, function(transaction) {
+                transaction.selected = false;
             });
         };
 
@@ -95,9 +95,9 @@
             for (var i in vm.selectedTypes) {
                 vm.selectedTypes[i] = true;
             }
-            angular.forEach(vm.expenses.expenses, function(expense) {
-                expense.selected = true;
-                vm.updateSelectedTransaction(expense);
+            angular.forEach(vm.transactions.transactions, function(transaction) {
+                transaction.selected = true;
+                vm.updateSelectedTransaction(transaction);
             });
         };
 
@@ -113,48 +113,48 @@
             }
         };
 
-        vm.ignoreExpenses = function() {
+        vm.ignoreTransactions = function() {
             vm.http({
                 method: 'POST',
-                url: '/api/expenses/',
+                url: '/api/transactions/',
                 data: {action: 'ignore', ids: getSelectedIds()}
             }).success(function(data) {
-                getExpenses();
+                getTransactions();
             }).error(function(data) {
                 logger.error(data);
             });
         };
 
-        vm.undoIgnoreExpenses = function() {
+        vm.undoIgnoreTransactions = function() {
             vm.http({
                 method: 'POST',
-                url: '/api/expenses/',
+                url: '/api/transactions/',
                 data: {action: 'unignore', ids: getSelectedIds()}
             }).success(function(data) {
-                getExpenses();
+                getTransactions();
             }).error(function(data) {
                 logger.error(data);
             });
         };
 
-        vm.updateSelectedTransaction = function(expense) {
-            if (expense.ignored) {
+        vm.updateSelectedTransaction = function(transaction) {
+            if (transaction.ignored) {
                 return;
             }
-            if (expense.debit_amount) {
+            if (transaction.debit_amount) {
                 var selectedExpenses = parseFloat(vm.selectedExpenses);
-                if (expense.selected) {
-                    selectedExpenses = selectedExpenses + parseFloat(expense.debit_amount);
+                if (transaction.selected) {
+                    selectedExpenses = selectedExpenses + parseFloat(transaction.debit_amount);
                 } else {
-                    selectedExpenses = selectedExpenses - parseFloat(expense.debit_amount);
+                    selectedExpenses = selectedExpenses - parseFloat(transaction.debit_amount);
                 }
                 vm.selectedExpenses = selectedExpenses.toFixed(2);
             } else {
                 var selectedIncomes = parseFloat(vm.selectedIncomes);
-                if (expense.selected) {
-                    selectedIncomes = selectedIncomes + parseFloat(expense.credit_amount);
+                if (transaction.selected) {
+                    selectedIncomes = selectedIncomes + parseFloat(transaction.credit_amount);
                 } else {
-                    selectedIncomes = selectedIncomes - parseFloat(expense.credit_amount);
+                    selectedIncomes = selectedIncomes - parseFloat(transaction.credit_amount);
                 }
                 vm.selectedIncomes = selectedIncomes.toFixed(2);
             }
@@ -168,26 +168,26 @@
         activate();
 
         function getSelectedIds() {
-            return vm.expenses.expenses.filter(function(expense) {
-                return expense.selected;
-            }).reduce(function(acc, expense) {
-                expense.selected = false;
-                acc.push(expense.id);
+            return vm.transactions.transactions.filter(function(transaction) {
+                return transaction.selected;
+            }).reduce(function(acc, transaction) {
+                transaction.selected = false;
+                acc.push(transaction.id);
                 return acc;
             }, []);
         }
 
         function activate() {
-            return getExpenses().then(function() {
-                logger.info('Expenses fetched');
+            return getTransactions().then(function() {
+                logger.info('Transactions fetched');
             });
         }
 
-        function getExpenses() {
-            return dataservice.getExpenses({date: vm.date.format('YYYY-MM')})
+        function getTransactions() {
+            return dataservice.getTransactions({date: vm.date.format('YYYY-MM')})
                 .then(function(data) {
-                    vm.expenses = data;
-                    return vm.expenses;
+                    vm.transactions = data;
+                    return vm.transactions;
                 });
         }
     }

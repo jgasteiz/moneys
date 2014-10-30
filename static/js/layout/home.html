@@ -19,9 +19,9 @@
                 <strong>Information</strong>
             </div>
             <div class="panel-body text-center">
-                <p><strong>Your incomes: <span class="label label-success">£ [[vm.expenses.totalIncomes]]</span></strong></p>
-                <p><strong>Your expenses: <span class="label label-danger">£ [[vm.expenses.totalExpenses]]</span></strong></p>
-                <p><strong>Your balance: <span class="label label-info">£ [[vm.expenses.balance]]</span></strong></p>
+                <p><strong>Your incomes: <span class="label label-success">£ [[vm.transactions.totalIncomes]]</span></strong></p>
+                <p><strong>Your transactions: <span class="label label-danger">£ [[vm.transactions.totalTransactions]]</span></strong></p>
+                <p><strong>Your balance: <span class="label label-info">£ [[vm.transactions.balance]]</span></strong></p>
                 <hr>
                 <p><strong>Selected expenses: <span class="label label-danger">£ [[vm.selectedExpenses]]</span></strong></p>
                 <p><strong>Selected incomes: <span class="label label-success">£ [[vm.selectedIncomes]]</span></strong></p>
@@ -96,8 +96,8 @@
 
                 <h3>Actions</h3>
                 <div class="btn-group-vertical">
-                    <button class="btn btn-sm btn-default" ng-click="vm.ignoreExpenses()">Ignore selected expenses</button>
-                    <button class="btn btn-sm btn-default" ng-click="vm.undoIgnoreExpenses()">Unignore selected expenses</button>
+                    <button class="btn btn-sm btn-default" ng-click="vm.ignoreTransactions()">Ignore selected transactions</button>
+                    <button class="btn btn-sm btn-default" ng-click="vm.undoIgnoreTransactions()">Unignore selected transactions</button>
                 </div>
             </div>
         </div>
@@ -112,26 +112,26 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="pull-right">
-                            <input id="show_ignored" type="checkbox" ng-model="vm.showIgnoredExpenses">
-                            <label for="show_ignored">Show ignored expenses</label>
+                            <input id="show_ignored" type="checkbox" ng-model="vm.showIgnoredTransactions">
+                            <label for="show_ignored">Show ignored transactions</label>
                         </div>
                     </div>
                 </div>
                 <p><a ng-click="vm.sortByQuantity()">Sort by quantity</a>, <a ng-click="vm.sortByDate()">Sort by date</a></p>
             </div>
             <div class="panel-body">
-                <ul class="expense-list">
-                    <li ng-repeat="expense in vm.expenses.expenses"
-                        ng-hide="(expense.ignored && !vm.showIgnoredExpenses) || !vm.shownTypes[expense.transaction_type]">
-                        <input type="checkbox" ng-model="expense.selected" ng-change="vm.updateSelectedTransaction(expense)">
-                        <span class="label label-warning" ng-show="expense.ignored">IGNORED</span>
-                        <span class="label label-primary">[[expense.transaction_date]]</span>
+                <ul class="transaction-list">
+                    <li ng-repeat="transaction in vm.transactions.transactions"
+                        ng-hide="(transaction.ignored && !vm.showIgnoredTransactions) || !vm.shownTypes[transaction.transaction_type]">
+                        <input type="checkbox" ng-model="transaction.selected" ng-change="vm.updateSelectedTransaction(transaction)">
+                        <span class="label label-warning" ng-show="transaction.ignored">IGNORED</span>
+                        <span class="label label-primary">[[transaction.transaction_date]]</span>
 
-                        <span class="label label-info">[[expense.transaction_type]]</span>
-                        <span>[[expense.description]]</span>
+                        <span class="label label-info">[[transaction.transaction_type]]</span>
+                        <span>[[transaction.description]]</span>
 
-                        <span class="label label-danger" ng-show="expense.debit_amount">£ [[expense.debit_amount]]</span>
-                        <span class="label label-success" ng-show="expense.credit_amount">£ [[expense.credit_amount]]</span>
+                        <span class="label label-danger" ng-show="transaction.debit_amount">£ [[transaction.debit_amount]]</span>
+                        <span class="label label-success" ng-show="transaction.credit_amount">£ [[transaction.credit_amount]]</span>
                     </li>
                 </ul>
             </div>

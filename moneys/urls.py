@@ -3,11 +3,11 @@ from django.contrib import admin
 
 from rest_framework import routers
 
-from public.api import ExpenseViewSet
+from public.api import TransactionViewSet
 
 
 router = routers.DefaultRouter()
-router.register(r'expenses', ExpenseViewSet, base_name='expenses')
+router.register(r'transactions', TransactionViewSet, base_name='transactions')
 
 urlpatterns = patterns(
     'public.views',

@@ -10,42 +10,42 @@ dataservice.$inject = ['$http', 'logger'];
 function dataservice($http, logger) {
 
     return {
-        getExpenses: getExpenses
+        getTransactions: getTransactions
     };
 
-    function getExpenses(query) {
+    function getTransactions(query) {
 
-        return $http.get('/api/expenses/', {params: query})
-            .then(getExpensesComplete)
-            .catch(getExpensesFailed);
+        return $http.get('/api/transactions/', {params: query})
+            .then(getTransactionsComplete)
+            .catch(getTransactionsFailed);
 
-        function getExpensesComplete(response) {
+        function getTransactionsComplete(response) {
 
-            var expenses = {};
+            var transactions = {};
 
-            expenses.expenses = response.data.results;
+            transactions.transactions = response.data.results;
 
-            expenses.totalExpenses = expenses.expenses.filter(function(expense) {
+            transactions.totalTransactions = transactions.transactions.filter(function(expense) {
                 return expense.debit_amount && !expense.ignored;
             }).reduce(function(acc, expense) {
                 acc = acc + parseFloat(expense.debit_amount);
                 return acc;
             }, 0).toFixed(2);
 
-            expenses.totalIncomes = expenses.expenses.filter(function(expense) {
+            transactions.totalIncomes = transactions.transactions.filter(function(expense) {
                 return expense.credit_amount && !expense.ignored;
             }).reduce(function(acc, expense) {
                 acc = acc + parseFloat(expense.credit_amount);
                 return acc;
             }, 0).toFixed(2);
 
-            expenses.balance = (expenses.totalIncomes - expenses.totalExpenses).toFixed(2);
+            transactions.balance = (transactions.totalIncomes - transactions.totalTransactions).toFixed(2);
 
-            return expenses;
+            return transactions;
         }
 
-        function getExpensesFailed(error) {
-            logger.error('XHR Failed for getExpenses.' + error.data);
+        function getTransactionsFailed(error) {
+            logger.error('XHR Failed for getTransactions.' + error.data);
         }
     }
 }

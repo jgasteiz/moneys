@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from core.models import Expense
+from core.models import Transaction
 
 
-class ExpenseSerializer(serializers.ModelSerializer):
+class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Expense
+        model = Transaction
         fields = ('id', 'transaction_date', 'transaction_type', 'short_code',
                   'account_number', 'description', 'debit_amount',
                   'credit_amount', 'balance', 'ignored')
