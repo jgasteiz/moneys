@@ -12,6 +12,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     model = Category
     serializer = CategorySerializer
 
+
 class TransactionViewSet(viewsets.ViewSet):
     model = Transaction
     paginate_by = 20

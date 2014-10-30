@@ -9,8 +9,6 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class TransactionSerializer(serializers.ModelSerializer):
-    category = serializers.SlugRelatedField(many=True, slug_field='name')
-
     class Meta:
         model = Transaction
         fields = ('id', 'transaction_date', 'transaction_type', 'short_code',

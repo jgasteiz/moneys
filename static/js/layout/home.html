@@ -26,7 +26,22 @@
                 <p><strong>Selected expenses: <span class="label label-danger">£ [[vm.selectedExpenses]]</span></strong></p>
                 <p><strong>Selected incomes: <span class="label label-success">£ [[vm.selectedIncomes]]</span></strong></p>
 
-                <h3>Selection</h3>
+                <h3>Selection by category</h3>
+                <div class="btn-group-vertical">
+                    <button class="btn btn-sm"
+                            ng-repeat="category in vm.categories"
+                            ng-class="{'btn-default': !vm.selectedCategories[category.id], 'btn-success': vm.selectedCategories[category.id]}"
+                            ng-click="vm.toggleCategorySelection(category.id)">
+                        [[category.name]]</button>
+                    <button class="btn btn-sm btn-default"
+                            ng-click="vm.selectAll()">
+                        Select all</button>
+                    <button class="btn btn-sm btn-default"
+                            ng-click="vm.selectNone()">
+                        Clear selection</button>
+                </div>
+
+                <h3>Selection by payment type</h3>
                 <div class="btn-group-vertical">
                     <button class="btn btn-sm"
                             ng-class="{'btn-default': !vm.selectedTypes['TFR'], 'btn-success': vm.selectedTypes['TFR']}"
@@ -138,5 +153,6 @@
                 </ul>
             </div>
         </div>
+
     </div>
 </div>

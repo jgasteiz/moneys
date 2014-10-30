@@ -11,6 +11,7 @@ function dataservice($http, logger) {
 
     return {
         getTransactions: getTransactions,
+        getCategories: getCategories,
         ignoreTransactions: ignoreTransactions,
         undoIgnoreTransactions: undoIgnoreTransactions
     };
@@ -68,6 +69,21 @@ function dataservice($http, logger) {
 
         function getTransactionsFailed(error) {
             logger.error('XHR Failed for getTransactions.' + error.data);
+        }
+    }
+
+    function getCategories(query) {
+
+        return $http.get('/api/categories/')
+            .then(getCategoriesComplete)
+            .catch(getCategoriesFailed);
+
+        function getCategoriesComplete(response) {
+            return response.data;
+        }
+
+        function getCategoriesFailed(error) {
+            logger.error('XHR Failed for getCategories.' + error.data);
         }
     }
 }

@@ -13,6 +13,7 @@
 
         vm.date = moment();
         vm.transactions = {};
+        vm.categories = [];
         vm.showIgnoredTransactions = false;
         vm.selectedTypes = {
             'TFR': false,
@@ -30,6 +31,8 @@
             'CPT': true,
             'DD': true
         };
+
+        vm.selectedCategories = {};
 
         vm.selectedExpenses = parseFloat(0).toFixed(2);
         vm.selectedIncomes = parseFloat(0).toFixed(2);
@@ -74,6 +77,16 @@
             });
         };
 
+        vm.toggleCategorySelection = function(category) {
+            vm.selectedCategories[category] = !vm.selectedCategories[category];
+            var selectedExpenses = vm.transactions.transactions.filter(function(transaction) {
+                return transaction.category.indexOf(category) > -1;
+            }).map(function(transaction) {
+                transaction.selected = vm.selectedCategories[category];
+                vm.updateSelectedTransaction(transaction);
+            });
+        };
+
         vm.toggleTypeShown = function(type) {
             vm.shownTypes[type] = !vm.shownTypes[type];
         };
@@ -82,6 +95,9 @@
             vm.restoreSelectedTransactions();
             for (var i in vm.selectedTypes) {
                 vm.selectedTypes[i] = false;
+            }
+            for (var i in vm.selectedCategories) {
+                vm.selectedCategories[i] = false;
             }
             angular.forEach(vm.transactions.transactions, function(transaction) {
                 transaction.selected = false;
@@ -92,6 +108,9 @@
             vm.restoreSelectedTransactions();
             for (var i in vm.selectedTypes) {
                 vm.selectedTypes[i] = true;
+            }
+            for (var i in vm.selectedCategories) {
+                vm.selectedCategories[i] = true;
             }
             angular.forEach(vm.transactions.transactions, function(transaction) {
                 transaction.selected = true;
@@ -168,8 +187,11 @@
         }
 
         function activate() {
-            return getTransactions().then(function() {
+            getTransactions().then(function() {
                 logger.info('Transactions fetched');
+            });
+            return getCategories().then(function() {
+                logger.info('Categories fetched');
             });
         }
 
@@ -178,6 +200,18 @@
                 .then(function(data) {
                     vm.transactions = data;
                     return vm.transactions;
+                });
+        }
+
+        function getCategories() {
+            return dataservice.getCategories()
+                .then(function(data) {
+                    vm.categories = data;
+                    vm.selectedCategories = {};
+                    angular.forEach(vm.categories, function(category) {
+                        vm.selectedCategories[category.id] = false;
+                    });
+                    return vm.categories;
                 });
         }
     }
