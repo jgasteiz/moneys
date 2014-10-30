@@ -3,11 +3,12 @@ from django.contrib import admin
 
 from rest_framework import routers
 
-from public.api import TransactionViewSet
+from public.api import TransactionViewSet, CategoryViewSet
 
 
 router = routers.DefaultRouter()
 router.register(r'transactions', TransactionViewSet, base_name='transactions')
+router.register(r'categories', CategoryViewSet, base_name='categories')
 
 urlpatterns = patterns(
     'public.views',

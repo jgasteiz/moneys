@@ -130,8 +130,10 @@
                         <span class="label label-info">[[transaction.transaction_type]]</span>
                         <span>[[transaction.description]]</span>
 
-                        <span class="label label-danger" ng-show="transaction.debit_amount">£ [[transaction.debit_amount]]</span>
-                        <span class="label label-success" ng-show="transaction.credit_amount">£ [[transaction.credit_amount]]</span>
+                        <div class="pull-right">
+                            <span class="label label-danger" ng-show="transaction.debit_amount">£ [[transaction.debit_amount]]</span>
+                            <span class="label label-success" ng-show="transaction.credit_amount">£ [[transaction.credit_amount]]</span>
+                        </div>
                     </li>
                 </ul>
             </div>

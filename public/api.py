@@ -4,9 +4,13 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from core.models import Transaction
-from core.serializers import TransactionSerializer
+from core.models import Transaction, Category
+from core.serializers import TransactionSerializer, CategorySerializer
 
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    model = Category
+    serializer = CategorySerializer
 
 class TransactionViewSet(viewsets.ViewSet):
     model = Transaction
