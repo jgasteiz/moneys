@@ -19,6 +19,19 @@ button {
 	padding: 0;
 }
 
+.transaction-list__item {
+	border: 1px solid #f5f5f5;
+	margin: 5px 0;
+	padding: 5px;
+
+	&--selected {
+		border: 1px solid #3276B1;
+	}
+	&--uncategorised {
+		background-color: #F2F2AD;
+	}
+}
+
 .error {
 	color: #B94A48;
 }

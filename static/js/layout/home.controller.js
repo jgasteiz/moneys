@@ -33,6 +33,8 @@
         };
 
         vm.selectedCategories = {};
+        vm.shownCategories = {};
+        vm.categoryNames = {};
 
         vm.selectedExpenses = parseFloat(0).toFixed(2);
         vm.selectedIncomes = parseFloat(0).toFixed(2);
@@ -91,6 +93,20 @@
             vm.shownTypes[type] = !vm.shownTypes[type];
         };
 
+        vm.toggleCategoryShown = function(categoryId) {
+            vm.shownCategories[categoryId] = !vm.shownCategories[categoryId];
+        }
+
+        vm.isCategoryHidden = function(categories) {
+            var isHidden = false;
+            angular.forEach(categories, function(categoryId) {
+                if (vm.shownCategories[categoryId] === false) {
+                    isHidden = true;
+                }
+            });
+            return isHidden;
+        }
+
         vm.selectNone = function() {
             vm.restoreSelectedTransactions();
             for (var i in vm.selectedTypes) {
@@ -146,7 +162,15 @@
                 });
         };
 
+        vm.keydownSelectTransaction = function(event, transaction) {
+            if (event.keyCode === 32) {
+                event.preventDefault();
+                vm.updateSelectedTransaction(transaction);
+            }
+        };
+
         vm.updateSelectedTransaction = function(transaction) {
+            transaction.selected = !transaction.selected;
             if (transaction.ignored) {
                 return;
             }
@@ -208,8 +232,11 @@
                 .then(function(data) {
                     vm.categories = data;
                     vm.selectedCategories = {};
+                    vm.shownCategories = {};
                     angular.forEach(vm.categories, function(category) {
                         vm.selectedCategories[category.id] = false;
+                        vm.shownCategories[category.id] = true;
+                        vm.categoryNames[category.id] = category.name;
                     });
                     return vm.categories;
                 });

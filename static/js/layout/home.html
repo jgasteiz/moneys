@@ -41,66 +41,13 @@
                         Clear selection</button>
                 </div>
 
-                <h3>Selection by payment type</h3>
+                <h3>Show by category</h3>
                 <div class="btn-group-vertical">
                     <button class="btn btn-sm"
-                            ng-class="{'btn-default': !vm.selectedTypes['TFR'], 'btn-success': vm.selectedTypes['TFR']}"
-                            ng-click="vm.toggleTypeSelection('TFR')">
-                        Transfer</button>
-                    <button class="btn btn-sm"
-                            ng-class="{'btn-default': !vm.selectedTypes['DEB'], 'btn-success': vm.selectedTypes['DEB']}"
-                            ng-click="vm.toggleTypeSelection('DEB')">
-                        Debit card</button>
-                    <button class="btn btn-sm"
-                            ng-class="{'btn-default': !vm.selectedTypes['FPI'], 'btn-success': vm.selectedTypes['FPI']}"
-                            ng-click="vm.toggleTypeSelection('FPI')">
-                        Payment incoming</button>
-                    <button class="btn btn-sm"
-                            ng-class="{'btn-default': !vm.selectedTypes['FPO'], 'btn-success': vm.selectedTypes['FPO']}"
-                            ng-click="vm.toggleTypeSelection('FPO')">
-                        Payment outcoming</button>
-                    <button class="btn btn-sm"
-                            ng-class="{'btn-default': !vm.selectedTypes['CPT'], 'btn-success': vm.selectedTypes['CPT']}"
-                            ng-click="vm.toggleTypeSelection('CPT')">
-                        Cashpoint</button>
-                    <button class="btn btn-sm"
-                            ng-class="{'btn-default': !vm.selectedTypes['DD'], 'btn-success': vm.selectedTypes['DD']}"
-                            ng-click="vm.toggleTypeSelection('DD')">
-                        Direct debit</button>
-                    <button class="btn btn-sm btn-default"
-                            ng-click="vm.selectAll()">
-                        Select all</button>
-                    <button class="btn btn-sm btn-default"
-                            ng-click="vm.selectNone()">
-                        Clear selection</button>
-                </div>
-
-                <h3>Show payments</h3>
-                <div class="btn-group-vertical">
-                    <button class="btn btn-sm"
-                            ng-class="{'btn-default': !vm.shownTypes['TFR'], 'btn-info': vm.shownTypes['TFR']}"
-                            ng-click="vm.toggleTypeShown('TFR')">
-                        Transfer</button>
-                    <button class="btn btn-sm"
-                            ng-class="{'btn-default': !vm.shownTypes['DEB'], 'btn-info': vm.shownTypes['DEB']}"
-                            ng-click="vm.toggleTypeShown('DEB')">
-                        Debit card</button>
-                    <button class="btn btn-sm"
-                            ng-class="{'btn-default': !vm.shownTypes['FPI'], 'btn-info': vm.shownTypes['FPI']}"
-                            ng-click="vm.toggleTypeShown('FPI')">
-                        Payment incoming</button>
-                    <button class="btn btn-sm"
-                            ng-class="{'btn-default': !vm.shownTypes['FPO'], 'btn-info': vm.shownTypes['FPO']}"
-                            ng-click="vm.toggleTypeShown('FPO')">
-                        Payment outcoming</button>
-                    <button class="btn btn-sm"
-                            ng-class="{'btn-default': !vm.shownTypes['CPT'], 'btn-info': vm.shownTypes['CPT']}"
-                            ng-click="vm.toggleTypeShown('CPT')">
-                        Cashpoint</button>
-                    <button class="btn btn-sm"
-                            ng-class="{'btn-default': !vm.shownTypes['DD'], 'btn-info': vm.shownTypes['DD']}"
-                            ng-click="vm.toggleTypeShown('DD')">
-                        Direct debit</button>
+                            ng-repeat="category in vm.categories"
+                            ng-class="{'btn-default': !vm.shownCategories[category.id], 'btn-info': vm.shownCategories[category.id]}"
+                            ng-click="vm.toggleCategoryShown(category.id)">
+                        [[category.name]]</button>
                     <button class="btn btn-sm btn-default"
                             ng-click="vm.showAllTypes()">
                         Show all</button>
@@ -109,11 +56,86 @@
                         Show none</button>
                 </div>
 
+                <label for="show_types">
+                    <input id="show_types" type="checkbox" ng-model="vm.showTransactionTypes"> Show transaciton type controls
+                </label>
+                <div ng-show="vm.showTransactionTypes">
+                    <h3>Selection by type</h3>
+                    <div class="btn-group-vertical">
+                        <button class="btn btn-sm"
+                                ng-class="{'btn-default': !vm.selectedTypes['TFR'], 'btn-success': vm.selectedTypes['TFR']}"
+                                ng-click="vm.toggleTypeSelection('TFR')">
+                            Transfer</button>
+                        <button class="btn btn-sm"
+                                ng-class="{'btn-default': !vm.selectedTypes['DEB'], 'btn-success': vm.selectedTypes['DEB']}"
+                                ng-click="vm.toggleTypeSelection('DEB')">
+                            Debit card</button>
+                        <button class="btn btn-sm"
+                                ng-class="{'btn-default': !vm.selectedTypes['FPI'], 'btn-success': vm.selectedTypes['FPI']}"
+                                ng-click="vm.toggleTypeSelection('FPI')">
+                            Payment incoming</button>
+                        <button class="btn btn-sm"
+                                ng-class="{'btn-default': !vm.selectedTypes['FPO'], 'btn-success': vm.selectedTypes['FPO']}"
+                                ng-click="vm.toggleTypeSelection('FPO')">
+                            Payment outcoming</button>
+                        <button class="btn btn-sm"
+                                ng-class="{'btn-default': !vm.selectedTypes['CPT'], 'btn-success': vm.selectedTypes['CPT']}"
+                                ng-click="vm.toggleTypeSelection('CPT')">
+                            Cashpoint</button>
+                        <button class="btn btn-sm"
+                                ng-class="{'btn-default': !vm.selectedTypes['DD'], 'btn-success': vm.selectedTypes['DD']}"
+                                ng-click="vm.toggleTypeSelection('DD')">
+                            Direct debit</button>
+                        <button class="btn btn-sm btn-default"
+                                ng-click="vm.selectAll()">
+                            Select all</button>
+                        <button class="btn btn-sm btn-default"
+                                ng-click="vm.selectNone()">
+                            Clear selection</button>
+                    </div>
+
+                    <h3>Show by type</h3>
+                    <div class="btn-group-vertical">
+                        <button class="btn btn-sm"
+                                ng-class="{'btn-default': !vm.shownTypes['TFR'], 'btn-info': vm.shownTypes['TFR']}"
+                                ng-click="vm.toggleTypeShown('TFR')">
+                            Transfer</button>
+                        <button class="btn btn-sm"
+                                ng-class="{'btn-default': !vm.shownTypes['DEB'], 'btn-info': vm.shownTypes['DEB']}"
+                                ng-click="vm.toggleTypeShown('DEB')">
+                            Debit card</button>
+                        <button class="btn btn-sm"
+                                ng-class="{'btn-default': !vm.shownTypes['FPI'], 'btn-info': vm.shownTypes['FPI']}"
+                                ng-click="vm.toggleTypeShown('FPI')">
+                            Payment incoming</button>
+                        <button class="btn btn-sm"
+                                ng-class="{'btn-default': !vm.shownTypes['FPO'], 'btn-info': vm.shownTypes['FPO']}"
+                                ng-click="vm.toggleTypeShown('FPO')">
+                            Payment outcoming</button>
+                        <button class="btn btn-sm"
+                                ng-class="{'btn-default': !vm.shownTypes['CPT'], 'btn-info': vm.shownTypes['CPT']}"
+                                ng-click="vm.toggleTypeShown('CPT')">
+                            Cashpoint</button>
+                        <button class="btn btn-sm"
+                                ng-class="{'btn-default': !vm.shownTypes['DD'], 'btn-info': vm.shownTypes['DD']}"
+                                ng-click="vm.toggleTypeShown('DD')">
+                            Direct debit</button>
+                        <button class="btn btn-sm btn-default"
+                                ng-click="vm.showAllTypes()">
+                            Show all</button>
+                        <button class="btn btn-sm btn-default"
+                                ng-click="vm.showNoTypes()">
+                            Show none</button>
+                    </div>
+                </div>
+
                 <h3>Actions</h3>
                 <div class="btn-group-vertical">
                     <button class="btn btn-sm btn-default" ng-click="vm.ignoreTransactions()">Ignore selected transactions</button>
                     <button class="btn btn-sm btn-default" ng-click="vm.undoIgnoreTransactions()">Unignore selected transactions</button>
                 </div>
+
+                <strong>Apply categories to selected transactions</strong>
             </div>
         </div>
     </div>
@@ -136,13 +158,19 @@
             </div>
             <div class="panel-body">
                 <ul class="transaction-list">
-                    <li ng-repeat="transaction in vm.transactions.transactions"
-                        ng-hide="(transaction.ignored && !vm.showIgnoredTransactions) || !vm.shownTypes[transaction.transaction_type]">
+                    <li class="transaction-list__item"
+                        tabindex="[[$index]]"
+                        ng-keypress="vm.keydownSelectTransaction($event, transaction)"
+                        ng-click="vm.updateSelectedTransaction(transaction)"
+                        ng-class="{'transaction-list__item--uncategorised': transaction.category.length === 0,'transaction-list__item--selected': transaction.selected}"
+                        ng-repeat="transaction in vm.transactions.transactions"
+                        ng-hide="(transaction.ignored && !vm.showIgnoredTransactions) || !vm.shownTypes[transaction.transaction_type] || vm.isCategoryHidden(transaction.category)">
                         <input type="checkbox" ng-model="transaction.selected" ng-change="vm.updateSelectedTransaction(transaction)">
                         <span class="label label-warning" ng-show="transaction.ignored">IGNORED</span>
                         <span class="label label-primary">[[transaction.transaction_date]]</span>
 
-                        <span class="label label-info">[[transaction.transaction_type]]</span>
+                        <span class="label label-info"
+                              ng-repeat="categoryId in transaction.category" ng-bind="vm.categoryNames[categoryId]"></span>
                         <span>[[transaction.description]]</span>
 
                         <div class="pull-right">
