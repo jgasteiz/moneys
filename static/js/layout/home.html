@@ -135,7 +135,20 @@
                     <button class="btn btn-sm btn-default" ng-click="vm.undoIgnoreTransactions()">Unignore selected transactions</button>
                 </div>
 
-                <strong>Apply categories to selected transactions</strong>
+                <div class="controls-section">
+                    <strong>Apply categories to selected transactions</strong>
+                    <ul class="category-selection-list text-left">
+                        <li ng-repeat="category in vm.categories">
+                            <label for="category_selection_[[category.id]]">
+                                <input type="checkbox"
+                                       ng-model="vm.assignSelectedCategories[category.id]"
+                                       id="category_selection_[[category.id]]">
+                                [[category.name]]
+                            </label>
+                        </li>
+                    </ul>
+                    <button ng-click="vm.applyCategories()">Apply</button>
+                </div>
             </div>
         </div>
     </div>

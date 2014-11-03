@@ -66,6 +66,16 @@ class TransactionViewSet(viewsets.ViewSet):
                 transaction = self.model.objects.get(id=transaction_id)
                 transaction.ignored = False
                 transaction.save()
+        elif action == 'categorise':
+            ids = request.DATA.get('ids')
+            categories = request.DATA.get('categories')
+
+            for transaction_id in ids:
+                transaction = Transaction.objects.get(id=transaction_id)
+                for category_id in categories:
+                    category = Category.objects.get(id=category_id)
+                    transaction.category.add(category)
+                transaction.save()
         return Response(dict(message='hey'))
 
     def list(self, request):

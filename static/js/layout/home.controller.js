@@ -32,8 +32,29 @@
             'DD': true
         };
 
+        /**
+         * Dict of the selected category transactions
+         * @type {Object}
+         */
         vm.selectedCategories = {};
+
+        /**
+         * Object for keeping the ids of the selected categories which will
+         * be used to be assigned to the selected transactions.
+         * @type {Object}
+         */
+        vm.assignSelectedCategories = {};
+
+        /**
+         * Dict of the shown categories in the transacion list.
+         * @type {Object}
+         */
         vm.shownCategories = {};
+
+        /**
+         * Dict for keeping the category names.
+         * @type {Object}
+         */
         vm.categoryNames = {};
 
         vm.selectedExpenses = parseFloat(0).toFixed(2);
@@ -196,6 +217,18 @@
         vm.restoreSelectedTransactions = function() {
             vm.selectedExpenses = parseFloat(0).toFixed(2);
             vm.selectedIncomes = parseFloat(0).toFixed(2);
+        };
+
+        vm.applyCategories = function() {
+            var selectedIds = getSelectedIds(),
+                selectedCategories = Object.keys(vm.assignSelectedCategories)
+                .filter(function(key) {
+                    return vm.assignSelectedCategories[key] === true;
+                });
+            dataservice.applyCategories(selectedIds, selectedCategories)
+                .then(function(data) {
+                    getTransactions();
+                });
         };
 
         activate();
