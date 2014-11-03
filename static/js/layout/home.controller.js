@@ -5,9 +5,9 @@
         .module('moneys')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['dataservice', 'logger']
+    HomeController.$inject = ['$scope', 'dataservice', 'logger']
 
-    function HomeController(dataservice, logger) {
+    function HomeController($scope, dataservice, logger) {
 
         var vm = this;
 
@@ -230,6 +230,10 @@
                     getTransactions();
                 });
         };
+
+        $scope.$on('category-created', function(evt, args) {
+            vm.categories.push(args.category);
+        });
 
         activate();
 

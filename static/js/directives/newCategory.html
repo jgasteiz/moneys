@@ -1,0 +1,8 @@
+<div>
+    <a ng-click="vm.editMode = true;" ng-hide="vm.editMode">Add new category</a>
+    <div ng-show="vm.editMode">
+        <input type="text" ng-model="vm.categoryName">
+        <button class="btn btn-primary btn-sm" ng-click="vm.createCategory()">Create</button>
+        <button class="btn btn-default btn-sm" ng-click="vm.cancel()">Cancel</button>
+    </div>
+</div>

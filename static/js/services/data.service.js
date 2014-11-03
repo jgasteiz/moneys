@@ -14,7 +14,8 @@ function dataservice($http, logger) {
         getCategories: getCategories,
         ignoreTransactions: ignoreTransactions,
         undoIgnoreTransactions: undoIgnoreTransactions,
-        applyCategories: applyCategories
+        applyCategories: applyCategories,
+        addCategory: addCategory
     };
 
     function ignoreTransactions(ids, cb) {
@@ -42,6 +43,16 @@ function dataservice($http, logger) {
             method: 'POST',
             url: '/api/transactions/',
             data: {action: 'categorise', ids: ids, categories: categories}
+        }).error(function(data) {
+            logger.error(data);
+        });
+    }
+
+    function addCategory(categoryName) {
+        return $http({
+            method: 'POST',
+            url: '/api/categories/',
+            data: {name: categoryName}
         }).error(function(data) {
             logger.error(data);
         });
