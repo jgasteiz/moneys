@@ -1,4 +1,5 @@
 {% load static %}
+{% load djangular_tags %}
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -38,6 +39,11 @@
         <ng-view></ng-view>
     </div>
 
+    <script>
+        var moneys = moneys || {};
+        moneys.csrftoken = '{% csrf_value %}';
+    </script>
+
     <script src="{% static 'lib/d3/d3.js' %}" charset="utf-8"></script>
     <script src="{% static 'lib/c3/c3.js' %}"></script>
     <script src="{% static 'lib/jquery/dist/jquery.js' %}"></script>
@@ -52,7 +58,6 @@
     <script src="{% static 'lib/angular-bootstrap/ui-bootstrap-tpls.js' %}"></script>
 
     <script src="{% static 'js/app.module.js' %}"></script>
-    <script src="{% static 'js/app.httpConfig.js' %}"></script>
     <script src="{% static 'js/app.routes.js' %}"></script>
 
     <script src="{% static 'js/directives/fileModel.directive.js' %}"></script>

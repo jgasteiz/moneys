@@ -60,12 +60,12 @@
         vm.selectedExpenses = parseFloat(0).toFixed(2);
         vm.selectedIncomes = parseFloat(0).toFixed(2);
 
-    	vm.previousMonth = function() {
-    		vm.date = vm.date.subtract(1, 'months');
+        vm.previousMonth = function() {
+            vm.date = vm.date.subtract(1, 'months');
             vm.selectNone();
             vm.showAllTypes();
             getTransactions();
-    	};
+        };
         vm.nextMonth = function() {
             vm.date = vm.date.add(1, 'months');
             vm.selectNone();
