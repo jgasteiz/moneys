@@ -6,16 +6,15 @@
         .directive('newCategory', newCategory);
 
     function newCategory() {
-        var directive = {
+        return {
             scope: {
                 'formElement': '='
             },
             restrict: 'E',
-            templateUrl: '/static/js/directives/newCategory.html',
+            templateUrl: '/static/js/components/newCategory/newCategory.html',
             controller : NewCategoryController,
             controllerAs: 'vm'
         };
-        return directive;
 
         NewCategoryController.$inject = ['$rootScope', 'dataservice'];
 

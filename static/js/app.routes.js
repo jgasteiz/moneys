@@ -8,12 +8,12 @@
     function routeConfig($routeProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'static/js/layout/home.html',
+                templateUrl: 'static/js/home/home.html',
                 controller: 'HomeController',
                 controllerAs: 'vm'
             })
             .when('/import_csv/', {
-                templateUrl: 'static/js/layout/import_csv.html',
+                templateUrl: 'static/js/importer/import_csv.html',
                 controller: 'ImportCSVController',
                 controllerAs: 'vm'
             });

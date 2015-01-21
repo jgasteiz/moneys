@@ -15,10 +15,12 @@ function dataservice($http, logger) {
         ignoreTransactions: ignoreTransactions,
         undoIgnoreTransactions: undoIgnoreTransactions,
         applyCategories: applyCategories,
-        addCategory: addCategory
+        addCategory: addCategory,
+        deleteCategory: deleteCategory,
+        updateTransaction: updateTransaction
     };
 
-    function ignoreTransactions(ids, cb) {
+    function ignoreTransactions(ids) {
         return $http({
             method: 'POST',
             url: '/api/transactions/',
@@ -28,7 +30,11 @@ function dataservice($http, logger) {
         });
     }
 
-    function undoIgnoreTransactions(ids, cb) {
+    function updateTransaction() {
+        logger.info('Updating transaction');
+    }
+
+    function undoIgnoreTransactions(ids) {
         return $http({
             method: 'POST',
             url: '/api/transactions/',
@@ -53,6 +59,16 @@ function dataservice($http, logger) {
             method: 'POST',
             url: '/api/categories/',
             data: {name: categoryName}
+        }).error(function(data) {
+            logger.error(data);
+        });
+    }
+
+    function deleteCategory(categoryId) {
+        return $http({
+            method: 'DELETE',
+            url: '/api/categories/',
+            data: {id: categoryId}
         }).error(function(data) {
             logger.error(data);
         });

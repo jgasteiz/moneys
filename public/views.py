@@ -23,7 +23,7 @@ CSV_HEADERS = [TRANSACTION_PROPERTIES[key] for key in TRANSACTION_PROPERTIES]
 
 
 class Home(TemplateView):
-    template_name = 'base.html'
+    template_name = 'index.html'
 
 home = Home.as_view()
 

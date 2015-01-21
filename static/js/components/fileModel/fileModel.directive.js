@@ -6,12 +6,11 @@
         .directive('fileModel', fileModel);
 
     function fileModel() {
-        var directive = {
+        return {
             link: link,
             restrict: 'A',
             require: 'ngModel'
         };
-        return directive;
 
         function link(scope, element, attrs, ngModel) {
             ngModel.$render = function () {

@@ -6,16 +6,15 @@
         .directive('formElement', formElement);
 
     function formElement() {
-        var directive = {
+        return {
             link: link,
             scope: {
                 'formElement': '='
             },
             restrict: 'A'
         };
-        return directive;
 
-        function link(scope, element, attrs, ngModel) {
+        function link(scope, element) {
             scope.formElement = element.get(0);
         }
     }
