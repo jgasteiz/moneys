@@ -76,7 +76,7 @@ class TransactionViewSet(viewsets.ViewSet):
                     category = Category.objects.get(id=category_id)
                     transaction.category.add(category)
                 transaction.save()
-        return Response(dict(message='hey'))
+        return Response()
 
     def list(self, request):
         if 'date' in request.GET:

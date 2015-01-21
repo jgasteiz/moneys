@@ -86,7 +86,7 @@
             vm.shownCategories[categoryId] = !vm.shownCategories[categoryId];
         };
 
-        vm.toggleAllCategoriesShown = function (show) {
+        vm.addCategory = function (show) {
             for (var i in vm.shownCategories) {
                 if (vm.shownCategories.hasOwnProperty(i)) {
                     vm.shownCategories[i] = show;
@@ -194,7 +194,17 @@
         };
 
         vm.deleteCategory = function(categoryId) {
-            dataservice.deleteCategory(categoryId);
+            // TODO: use a proper dialog
+            if (window.confirm("You sure?")) {
+                dataservice.deleteCategory(categoryId).then(function() {
+                    vm.categories = vm.categories.reduce(function (acc, category) {
+                        if (category.id !== categoryId) {
+                            acc.push(category);
+                        }
+                        return acc;
+                    }, []);
+                });
+            }
         };
 
         $scope.$on('category-created', function(evt, args) {

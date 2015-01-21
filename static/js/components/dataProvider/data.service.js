@@ -65,11 +65,9 @@ function dataservice($http, logger) {
     }
 
     function deleteCategory(categoryId) {
-        return $http({
-            method: 'DELETE',
-            url: '/api/categories/',
-            data: {id: categoryId}
-        }).error(function(data) {
+        return $http.delete(
+            '/api/categories/' + categoryId
+        ).error(function(data) {
             logger.error(data);
         });
     }
