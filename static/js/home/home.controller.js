@@ -16,6 +16,8 @@
         vm.categories = [];
         vm.showIgnoredTransactions = false;
 
+        vm.hideInfoPanel = true;
+
         /**
          * Dict of the selected category transactions
          * @type {Object}

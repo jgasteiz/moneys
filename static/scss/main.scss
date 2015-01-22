@@ -44,3 +44,16 @@ button {
 .error {
 	color: #B94A48;
 }
+
+.information-panel-toggle {
+	display: none;
+	@media (max-width: 767px) {
+		display: block;
+	}
+}
+
+.information-panel--hidden-small {
+	@media (max-width: 767px) {
+		display: none;
+	}
+}

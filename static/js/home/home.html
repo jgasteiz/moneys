@@ -17,8 +17,10 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <strong>Information</strong>
+                <a class="pull-right information-panel-toggle" ng-click="vm.hideInfoPanel = !vm.hideInfoPanel">Toggle info panel</a>
             </div>
-            <div class="panel-body text-center">
+            <div class="panel-body text-center information-panel"
+                 ng-class="{'information-panel--hidden-small': vm.hideInfoPanel}">
                 <p><strong>Your incomes: <span class="label label-success">£ [[vm.transactions.totalIncomes]]</span></strong></p>
                 <p><strong>Your transactions: <span class="label label-danger">£ [[vm.transactions.totalTransactions]]</span></strong></p>
                 <p><strong>Your balance: <span class="label label-info">£ [[vm.transactions.balance]]</span></strong></p>
